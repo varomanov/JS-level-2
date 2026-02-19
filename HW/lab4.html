@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 4</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+        button { cursor: pointer; width: 300px; padding: 7px; font-weight: 700;}
+        button:hover { box-shadow: 0 2px 2px black;}
+        button#addValue { background-color: darkcyan; color: #fff;}
+        button#addStart { background-color: rgb(130, 163, 213); color: #fff;}
+        button#addSort { background-color: rgb(162, 213, 130); color: #fff;}
+        button#rmLast { background-color: rgb(214, 127, 127); color: #fff;}
+        button#rmSel { background-color: rgb(249, 21, 17); color: #fff;}
+
+        ul { list-style: none; padding-left: 1em;}
+        ul li {cursor: pointer;}
+        ul li::before { content: ' ✅ ';}
+        .rm::before { content: ' ❌ ';}
+        .rm { color: red; text-decoration: line-through;}
+    </style>
+</head>
+<body>
+    
+    <h2>Работа с DOM (лаб 4)</h2>
+    <hr>
+
+    <!-- 1. Создать html: -->
+    <h1>Создание элементов</h1>
+    <ul id=list>
+        <li>Живопись</li>
+        <li>Музыка</li>
+        <li>Скульптура</li>
+        
+    </ul>
+
+    <!--Внизу сделать ссылку "Добавить..."
+    При клике на эту ссылку, с помощью ф-и prompt ввести строку
+    Если введена не пустая строка то в конец списка добавить элемент li
+    с указанным тестовым содержимым. -->
+    <button onclick="addValue('end')" id="addValue">Добавить в конец...</button><br>
+    
+    <!-- (*) Добавлять в начало
+    (**) Добавлять li в список так, чтобы он оставался отсортированный по алфавиты-->
+    <button onclick="addValue('start')" id="addStart">Добавить в начало...</button><br>
+    <button onclick="addValue('sort')" id="addSort">Добавить и сортировать...</button><br>
+    
+    
+    <!--2. Добавить внизу ссылку "Удалить..." 
+    Перед удалением последнего LI спросить пользователя с помощью confirm('Удалать пункт "Скульптура"?')-->
+    <button onclick="removeLast()" id="rmLast">Удалить...</button><br>
+    
+    <!--3*. Добавить выделение красным пункта списка и сделать его удаление по ссылке Удалить-->
+    <button onclick="removeSelectedItem()" id="rmSel">Удалить выбранные элементы...</button><br>
+
+
+    <!--4*. В примере со вложенными списками сделать сворачивани/разворачивание подгруппы по двойному клику на заголовок
+    (событие dblclick)
+
+    5**. Сделать прямо в списке (поле ввод строки и 2 кнопки (ОК, отмена)) после выделенного элемента
+    Сохранять пункт с текстом только если поле не пусто и не содержит цифр.     -->
+
+    <script>
+        function addMarkers()
+        {
+            let elems = document.querySelectorAll('ul li');
+            Array.from(elems).forEach((value) =>
+            {
+                value.addEventListener('click', function()
+                {
+                    if(value.classList.contains('rm'))
+                    {
+                        value.classList.remove('rm');
+                    } else
+                    {
+                        value.classList.add('rm');
+                    }
+                })
+            })
+        }
+
+        addMarkers();
+
+        function removeSelectedItem()
+        {
+            let elems = document.querySelectorAll('ul li');
+            Array.from(elems).forEach(value => 
+            {
+                if(value.classList.contains('rm'))
+                {
+                    value.remove();
+                }
+            })
+        }
+
+        function removeLast(){
+            let value = document.getElementById('list').lastElementChild.textContent;
+            let approve = prompt(`Удалить пункт "${value}"? (ответ: да или нет)`);
+            if (approve.toLocaleLowerCase().trim() === 'да')
+            {
+                document.getElementById('list').lastElementChild.remove();
+            }
+            addMarkers();
+        }
+
+        
+        function sortList(value)
+        {
+            let allItems = Array.from(document.querySelectorAll('ul#list li'));
+            allItems.push(value);
+            allItems.sort((a, b) => a.textContent.localeCompare(b.textContent));
+            return allItems;
+        }
+
+
+        function addValue(position)
+        {   
+            // Получение значения от пользователя и созадние нового элемента
+            let txtValue = prompt('Добавить новое значение в конец строки');
+            let ulDiv = document.getElementById('list');
+            let newItem = document.createElement('li');
+            
+            if (txtValue) 
+            {
+                newItem.textContent = txtValue;
+                
+                // Добавление элемента в конец списка
+                if(position === 'end') {
+                    ulDiv.appendChild(newItem);
+                    
+                // Добавление элемента в начало списка
+                } else if (position === 'start')
+                {
+                    let firstEl = ulDiv.firstElementChild;
+                    ulDiv.insertBefore(newItem, firstEl);
+                
+                // Добавление элемента + сортирвка всех элементов
+                } else if (position === 'sort')
+                {
+                    ulDiv = document.getElementById('list');
+                    let allElems = sortList(newItem);
+                    ulDiv.innerHTML = '';
+                    allElems.forEach(function(value)
+                    {
+                        ulDiv.appendChild(value);
+                    })
+                }
+            }
+            addMarkers();
+        }
+        
+        </script>
+</body>
+</html>
