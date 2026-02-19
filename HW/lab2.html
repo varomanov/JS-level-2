@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 2</title>
+</head>
+<body>
+
+    <h2>Печать текущего времени (лаб 2)</h2>
+    <hr>
+    <!-- 1.Напишите код печати текущего времени через таймер:
+        var win = open("","win","width=400,height=300");
+        setInterval(
+            function(){
+                win.document.open()
+                win.document.write((new Date().toLocaleTimeString()));
+                win.document.close();
+            }
+        ,1000);
+
+    2. Создайте ссылки "Запустить часики" и "Остановить часики"
+
+    3*. Сделать тикающие часики на текущей странице (не открывать новое окно),
+    а использовать document.getElementById('clock').innerHTML = ...     -->
+
+    <style>
+        body { font-family: Verdana, Geneva, Tahoma, sans-serif;}
+        p { color: blue; cursor: pointer; font-size: 1.3em;}
+        pre {display: inline; background-color: blueviolet; color:  #fff; padding: 3px; border-radius: 5px;}
+    </style>
+
+    <p onclick="startClock()">⏱️ Запустить часики</p>
+    <p onclick="stopClock()">❌ Остановить часики</p>
+
+    <hr>
+
+    <h2>Текущее время <pre>getElementById</pre></h2>
+
+    <h3 id="clock" style="font-size: 4em; font-family: monospace;"></h3>
+
+    <script>
+
+        let win;
+        let timer1;
+
+        function startClock() {
+            if(!timer1) {
+                win = open('about:blank', 'win', 'width=400, height=300');
+                timer1 = setInterval(() => {
+                    let dt = new Date().toLocaleTimeString();
+                    win.document.open()
+                    win.document.writeln(`<h1>${dt}</h1>`);
+                    win.document.close();
+                }, 1000)
+            }
+        }
+
+        function stopClock() {
+            clearInterval(timer1);
+            win.close();
+            timer1 = null;
+        }
+
+        let elem = document.getElementById('clock');
+        setInterval(() => {
+            elem.innerHTML = new Date().toLocaleTimeString('ru-RU');
+            elem.style.color = `rgb(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)})`;
+        }, 1000)
+    </script>
+    
+</body>
+</html>

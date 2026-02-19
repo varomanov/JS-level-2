@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 1</title>
+</head>
+
+<body>
+
+    <h2>Формирование ссылок (лаб 1)</h2>
+    <hr>
+    <!-- 1. Массив Объектов Link (6 элементов) JSON
+        Link состоит из:
+            title
+            href
+            clicks - частоты переход == 0
+    2. Заполнить свойства clicks случайным число (1 - 100)
+        Math.round(Math.random()*99) + 1 == 1..100
+    3. Сформировать набор ссылокв html с помощью document.write 
+        (<a>title (clicks)</a>)
+        только clicks >= 50
+        отсортированные по clicks (по убыванию)     -->
+
+
+    <script>
+        const linkArray = [];
+
+        for (let i = 0; i < 6; i++) {
+            let rndValue = Math.round(Math.random() * 99) + 1;
+            linkArray.push({
+                title: `title #${i + 1}`,
+                href: `mystite.ru/${i + 1}/`,
+                clicks: rndValue,
+            })
+        }
+
+        document.writeln(`<h3>Ссылки с просмотрами больше равно 50:</h3>`)
+        linkArray
+            .filter(e => e.clicks >= 50)
+            .sort((a, b) => b - a)
+            .forEach(e => {
+                document.writeln(`<a href="${e.href}">${e.title} (${e.clicks})</a><br/>`)
+            })
+        
+        document.writeln(`<h3>Все просмотры (искл. фильтры): ${linkArray.reduce((total, value) => total + value.clicks, 0)}</h3>`)
+    </script>
+</body>
+
+</html>

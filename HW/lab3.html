@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 3</title>
+    <style>
+        body { font-family: Verdana, Geneva, Tahoma, sans-serif;}
+        ul { list-style-type: none;}
+        ul h3 { margin-bottom: .2em; color: cadetblue; cursor: pointer;}
+        ul h3::after { content: ' ➖ ';}
+        h3+ul li { font-family: monospace; font-size: 1.4em; color: gray;}
+        .hidden { display: none; }
+        button { background-color: #fff; color: cadetblue; border: 1px solid cadetblue; border-radius: 5px; box-shadow: 2px 2px 2px lightblue;}
+        .after::after { content: ' ➕ '; }
+
+    </style>
+</head>
+<body>
+
+    <h2>Сворачивание списков (лаб 3)</h2>
+    <hr>
+    
+    <button onclick="collapseAll()">➖ Collapse All</button>
+    <button onclick="expandAll()">➕ Expand All</button>
+    <hr>
+
+    <ul>
+        <li>
+            <h3>Живопись</h3>
+            <ul>
+                <li>Рембрандт</li>
+                <li>Айвазовский</li>
+                <li>Шишкин</li>
+            </ul>
+        </li>
+        <li>
+            <h3>Литература</h3>
+            <ul>
+                <li>Пушкин</li>
+                <li>Лермонтов</li>
+                <li>Гоголь</li>
+            </ul>
+        </li>
+        <li>
+            <h3>Скульптура</h3>
+            <ul>
+                <li>Роден</li>
+                <li>Микеланджело</li>
+                <li>Церетели</li>
+            </ul>
+        </li>
+        <li>
+            <h3>Города</h3>
+            <ul>
+                <li>Париж</li>
+                <li>Москва</li>
+                <li>Ереван</li>
+            </ul>
+        </li>
+    </ul>
+
+    <script>
+        let allH3 = document.querySelectorAll('h3');
+        allH3.forEach(function(value)
+        {
+            value.addEventListener('click', function()
+            {
+                if(this.nextElementSibling.classList.contains('hidden'))
+                {
+                    this.nextElementSibling.classList.remove('hidden');
+                    this.classList.remove('after');
+                } else 
+                {
+                    this.nextElementSibling.classList.add('hidden');
+                    this.classList.add('after');
+                }
+            })
+        })
+
+        function expandAll()
+        {
+            allH3.forEach(function(value) 
+            {
+                value.classList.remove('after');
+                value.nextElementSibling.classList.remove('hidden');
+            })
+        }
+
+        function collapseAll()
+        {
+            allH3.forEach(function(value)
+            {   
+                value.classList.add('after');
+                value.nextElementSibling.classList.add('hidden');
+            })
+        }
+    </script>
+</body>
+</html>
