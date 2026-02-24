@@ -73,6 +73,7 @@
             miniImage.addEventListener('click', function() {
                 position = idx;
                 img.style.backgroundImage = `url(JS-2-0902/Events/images/${photos[position]})`
+                // если нажал на мини картинку то отменил счетчик
                 clearInterval(sti1);
             })
         })
