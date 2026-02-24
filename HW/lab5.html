@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../JS-2-0902/Events/photos.js"></script>
+    <title>Document</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        div {
+            box-shadow: 2px 2px 5px gray;
+        }
+
+        #mini {
+            display: flex;
+            flex-flow: row wrap;
+            margin-bottom: 2em;
+            justify-items: space-between;
+        }
+
+        #mini img {
+            max-width: 120px;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .photoContainer {
+            /* width: 500px; */
+            height: 500px;
+            margin: 0 auto;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            transition: background-image 500ms;
+        }
+    </style>
+</head>
+<body>
+    
+    <h2>Фотоальбом (лаб 5)</h2>
+    <hr>
+    <div id="mini"></div>
+    <div class="photoContainer">
+        <!-- <img src="JS-2-0902/Events/images/ettlingen01.jpg" alt="foto"> -->
+    </div>
+    <button onclick="slider(-1)">Предыдущее</button>
+    <button onclick="slider(1)">Следующее</button>
+
+    <script>
+        // всего 23 фотографии
+        let n = photos.length - 1;
+        let img = document.querySelector('.photoContainer');
+        img.style.backgroundImage = `url(JS-2-0902/Events/images/${photos[0]})`
+
+        let position = 0;
+        let miniDiv = document.getElementById('mini');
+
+        function slider(idx) {
+            position += idx;
+            if (position < 0) position = n; 
+            if (position >= photos.length) position = 0;
+            // img.setAttribute('src', `JS-2-0902/Events/images/${photos[position]}`)
+            img.style.backgroundImage = `url(JS-2-0902/Events/images/${photos[position]})`
+        }
+        
+        photos.forEach((value, idx) => {
+            let miniImage = document.createElement('img');
+            miniImage.setAttribute('src', `JS-2-0902/Events/images/${value}`);
+            miniDiv.appendChild(miniImage);
+            miniImage.addEventListener('click', function() {
+                position = idx;
+                img.style.backgroundImage = `url(JS-2-0902/Events/images/${photos[position]})`
+                clearInterval(sti1);
+            })
+        })
+
+        document.body.addEventListener('keyup', function(e) {
+            // на маке почему-то не работает e.ctrlKey
+            if (e.keyCode == 37) slider(-1);
+            if (e.keyCode == 39) slider(1);
+        })
+
+        document
+            .querySelector('.photoContainer')
+            .addEventListener('click', function(e) {
+                if (e.offsetX < this.offsetWidth / 2) slider(-1)
+                if (e.offsetX >= this.offsetWidth / 2) slider(1)
+                console.log(e.offsetX);
+                console.log(this.offsetWidth);
+            })
+        
+        let sti1 = setInterval(slider, 2000, idx=1);
+
+    </script>
+</body>
+</html>
