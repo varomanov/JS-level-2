@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h2>Промисы (лаб 6)</h2>
+    <hr>
+    <!-- 1. Асихнронно прочитать картинку 
+    используя файл API
+    2. Прочитать несколько текстовых
+    файлов. (multiple)     -->
+
+    <input type="file" name="picture" id="picture">
+    <div id="pictureOut"></div>
+
+
+    <script>
+        function getPicture(file) {
+            return new Promise((resolve, reject) => {
+                if (!file) return reject('Файл не выбран!');
+                let reader = new FileReader();
+                reader.onload = function () {
+                    let pictureDiv = document.getElementById('pictureOut');
+                    let img = document.createElement('img');
+                    img.setAttribute('src', reader.result);
+                    pictureDiv.appendChild(img);
+                    resolve('Картинка загружена');
+                }
+                reader.readAsDataURL(file);
+            })
+        }
+        document
+            .getElementById('picture')
+            .addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                getPicture(file).then((msg) => console.log(msg));
+            })
+    </script>
+</body>
+
+</html>
