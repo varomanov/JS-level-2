@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FetchAPI</title>
+</head>
+<body>
+
+    <h2>FetchAPI (лаб 7)</h2>
+    <hr>
+
+    <h3>Информация о пользователе</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>name</th>
+                <th>username</th>
+                <th>e-mail</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+        <tfoot></tfoot>
+    </table>
+
+
+    <!-- FetchAPI
+
+    1. Получить инф о человеке и отобразить имя(name), логин (username) и e-mail(email)
+    https://jsonplaceholder.typicode.com/users/1
+
+    2. (*) Отредактировать имя на странице и отправить обратно методом POST
+    https://jsonplaceholder.typicode.com/posts     -->
+
+    <script>
+        fetch('https://jsonplaceholder.typicode.com/users/1')
+            .then(response => {
+                if(response.ok) {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                const allTd = document.querySelectorAll('tbody tr td');
+                allTd[0].textContent = data.name;
+                allTd[1].textContent = data.username;
+                allTd[2].textContent = data.email;
+            })
+            .catch(error => console.log('No data'));
+    </script>
+</body>
+</html>
